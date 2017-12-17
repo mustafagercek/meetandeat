@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  address: MyString
+  timeslot1: false
+  timeslot2: false
+  timeslot3: 
+  description: MyString
+  incentive: MyString
+  participantslot1: 1
+  participantslot2: 1
+  participantslot3: 1
+  state: 1
+
+two:
+  title: MyString
+  address: MyString
+  timeslot1: false
+  timeslot2: false
+  timeslot3: 
+  description: MyString
+  incentive: MyString
+  participantslot1: 1
+  participantslot2: 1
+  participantslot3: 1
+  state: 1

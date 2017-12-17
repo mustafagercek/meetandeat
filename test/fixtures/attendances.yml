@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  task: one
+  participant: one
+  response: 1
+
+two:
+  task: two
+  participant: two
+  response: 1

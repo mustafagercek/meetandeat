@@ -1,0 +1,103 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+/* Horizontal Navbar */
+body {
+    background-color: #EFEFEF;
+    color: #2E2F30;
+    font-family: "Avenir Next";
+    margin: 0;
+    background-image: url('background.jpg')
+}
+
+.content {
+    margin: 16px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #dedc00;
+}
+
+.center {
+    margin: auto;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    background: white;
+    display: inline-block;
+    padding: 8px;
+    margin: 8px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+/*
+* Material Button
+*/
+
+table {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+
+}
+
+th, td {
+    max-width: 300px;
+    text-align: left;
+    padding: 8px;
+    word-wrap: break-word;
+}
+
+.trimm {
+    max-width: 300px;
+    text-align: left;
+    padding: 8px;
+    word-wrap: break-word;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(128, 128, 128, 0.33)
+}

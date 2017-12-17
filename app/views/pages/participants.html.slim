@@ -1,0 +1,50 @@
+h1 User
+div.card {style = "vertical-align:top"}
+  tr Add User
+  = form_for :participant, url: participants_path do |f|
+    div.field
+      = f.label :email
+      br
+      = f.text_field :email
+    div.field
+      = f.label :password
+      br
+      = f.text_field :password
+    div.field
+      = f.label :gender
+      br
+      = f.select :role, Participant.genders.keys
+    div.field
+      = f.label :birthday
+      br
+      = f.date_select :birthday
+    div.field
+      = f.label :role
+      = f.select :role, Participant.roles.keys
+      br
+    div.field
+      = f.submit
+br
+div class = "card"
+  div style="overflow-x:auto;"
+  - if @participants.present?
+    = will_paginate @participants, :param_name => 'participants_page'
+    table
+      thead
+        tr
+          th Id
+          th Email
+          th Gender
+          th Birthday
+          th Role
+      tbody
+        - @participants.each do |participant|
+          tr
+            td = participant.id
+            td = participant.email
+            td = participant.gender
+            td = participant.birthday
+            td = participant.role
+            td = link_to "Delete", {:controller => "participants", :action => 'destroy', :id => participant.id}, :method => :delete, class: "btn btn-default", data: {confirm: 'Are you sure?'}
+  - else
+    p No category in the database

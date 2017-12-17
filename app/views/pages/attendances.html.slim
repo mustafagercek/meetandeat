@@ -1,0 +1,22 @@
+h1 Attendances
+
+div class = "card"
+  div style="overflow-x:auto;"
+  - if @attendances.present?
+    = will_paginate @attendances, :param_name => 'attendances_page'
+    table
+      thead
+        tr
+          th Id
+          th Task
+          th Participant
+          th Answer
+      tbody
+        - @attendances.each do |attendance|
+          tr
+            td = attendance.id
+            td = attendance.task.name
+            td = attendance.participant.email
+            td = attendance.response
+  - else
+    p No Attendance in the database

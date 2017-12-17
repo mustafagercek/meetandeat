@@ -1,0 +1,154 @@
+<h3>Create Task</h3>
+<%= form_for :task, url: bo_tasks_url do |f| %>
+    <p>
+      <%= f.label :title %> <br>
+      <%= f.text_field :title %>
+    </p>
+    <p>
+      <%= f.label :address %> <br>
+      <%= f.text_field :address %>
+    </p>
+    <p>
+      <%= f.label :timeslot1 %>
+      <%= f.check_box :timeslot1 %>
+    </p>
+    <p>
+      <%= f.label :timeslot2 %>
+      <%= f.check_box :timeslot2 %>
+    </p>
+    <p>
+      <%= f.label :timeslot3 %>
+      <%= f.check_box :timeslot3 %>
+    </p>
+    <p>
+      <%= f.label :description %> <br>
+      <%= f.text_field :description %>
+    </p>
+    <p>
+      <%= f.label :incentive %> <br>
+      <%= f.text_field :incentive %>
+    </p>
+    <p>
+      <%= f.label :participant1 %>
+      <%= f.number_field(:participantslot1, in: 0.0..5.0, step: 1, :value => 0) %>
+    </p>
+    <p>
+      <%= f.label :participant2 %>
+      <%= f.number_field(:participantslot2, in: 0.0..5.0, step: 1, :value => 0) %>
+    </p>
+    <p>
+      <%= f.label :participant3 %>
+      <%= f.number_field(:participantslot3, in: 0.0..5.0, step: 1, :value => 0) %>
+
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>
+
+<br/>
+
+<table>
+  <thread>
+    <tr>
+      <th>Id</th>
+      <th>Title</th>
+      <th>Address</th>
+      <th>Description</th>
+      <th>Incentive</th>
+      <th>Timeslot1</th>
+      <th>Timeslot2</th>
+      <th>Timeslot3</th>
+      <th>Participant1</th>
+      <th>Participant2</th>
+      <th>Participant3</th>
+      <th>Status</th>
+    </tr>
+  </thread>
+  <tbody>
+  <% @tasks.each do |f| %>
+      <tr>
+        <td><%= f.id %></td>
+        <td><%= f.title %></td>
+        <td><%= f.address %></td>
+        <td><%= f.description %></td>
+        <td><%= f.incentive %></td>
+        <td><%= f.timeslot1 %></td>
+        <td><%= f.timeslot2 %></td>
+        <td><%= f.timeslot3 %></td>
+        <td><%= f.participantslot1 %></td>
+        <td><%= f.participantslot2 %></td>
+        <td><%= f.participantslot3 %></td>
+        <td><%= f.status %></td>
+        <td>
+          <%= link_to "Delete", bo_task_path(f), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-default" %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br/>
+<h3>Participants</h3>
+<%= form_for :participant, url: participants_url do |f| %>
+    <p>
+      <%= f.label :email %> <br>
+      <%= f.text_field :email %>
+    </p>
+    <p>
+      <%= f.label :password %> <br>
+      <%= f.text_field :password %>
+    </p>
+    <p>
+      <%= f.label :gender %><br>
+      <%= f.select :gender, Participant.genders.keys %>
+    </p>
+    <p>
+      <%= f.label :birthday %> <br>
+      <%= f.date_select :birthday, :start_year => Date.current.year, :end_year => 1950 %> <br>
+    </p>
+    <p>
+      <%= f.label :role %><br>
+      <%= f.select :role, Participant.roles.keys %>
+    </p>
+    <p>
+      <%= f.submit %>
+    </p>
+<% end %>
+
+<table>
+  <thread>
+    <tr>
+      <th>Id</th>
+      <th>Email</th>
+      <th>PW</th>
+      <th>PWD</th>
+      <th>Firstname</th>
+      <th>Lastname</th>
+      <th>Gender</th>
+      <th>Birthday</th>
+      <th>Role</th>
+      <th>Token</th>
+
+    </tr>
+  </thread>
+  <tbody>
+  <% @participants.each do |f| %>
+      <tr>
+        <td><%= f.id %></td>
+        <td><%= f.email %></td>
+        <td><%= f.password %></td>
+        <td><%= f.password_digest %></td>
+        <td><%= f.firstname %></td>
+        <td><%= f.lastname %></td>
+        <td><%= f.gender %></td>
+        <td><%= f.birthday %></td>
+        <td><%= f.role %></td>
+        <td><%= f.auth_token %></td>
+
+        <td>
+          <%= link_to "Delete", participant_path(f), method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-default" %>
+        </td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>

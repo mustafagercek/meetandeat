@@ -1,0 +1,86 @@
+h1 Task
+div.card {style = "vertical-align:top"}
+  tr Add Task
+  = form_for :task, url: bo_tasks_path do |f|
+    div.field
+      = f.label :title
+      br
+      = f.text_field :title
+    div.field
+      = f.label :address
+      br
+      = f.text_field :address
+    div.field
+      = f.label :timeslot1
+      = f.check_box :timeslot1
+    div.field
+      = f.label :timeslot2
+      = f.check_box :timeslot2
+    div.field
+      = f.label :timeslot3
+      = f.check_box :timeslot3
+    div.field
+      = f.label :description
+      br
+      = f.text_field :description
+    div.field
+      = f.label :incentive
+      br
+      = f.text_field :incentive
+    div.field
+      = f.label :participant1
+      = f.number_field(:participantslot1, in: 0.0..5.0, step: 1, :value => 0)
+    div.field
+      = f.label :participant2
+      = f.number_field(:participantslot2, in: 0.0..5.0, step: 1, :value => 0)
+    div.field
+      = f.label :participant3
+      = f.number_field(:participantslot3, in: 0.0..5.0, step: 1, :value => 0)
+      br
+    div.field
+      = f.submit
+br
+div class = "card"
+  div style="overflow-x:auto;"
+  - if @tasks.present?
+    = will_paginate @tasks, :param_name => 'tasks_page'
+    table
+      thead
+        tr
+          th Id
+          th Title
+          th Address
+          th Timeslot1
+          th Timeslot2
+          th Timeslot3
+          th Description
+          th Incentive
+          th Participant1
+          th Participant2
+          th Participant3
+          th State
+      tbody
+        - @tasks.each do |task|
+          tr
+            td = task.id
+            td = task.title
+            td = task.address
+            td = task.timeslot1
+            td = task.timeslot2
+            td = task.timeslot3
+            td = task.description
+            td = task.incentive
+            td = task.participantslot1
+            td = task.participantslot2
+            td = task.participantslot3
+            td = task.state
+            td
+              = link_to "Delete", {:controller => "bo_tasks", :action => 'destroy', :id => task.id}, :method => :delete, class: "btn btn-default", data: {confirm: 'Are you sure?'}
+              div
+                = form_for :task, url: bo_task_path(task), :method => :patch do |f|
+                  div.field
+                    = f.hidden_field :state, :value => :active
+                  div.field
+                    = f.submit "Activate"
+  - else
+    p No Task in the database
