@@ -7,7 +7,6 @@ class CreateParticipants < ActiveRecord::Migration[5.1]
       t.string :lastname
       t.date :birthday
       t.integer :gender
-      t.integer :role
 
       t.timestamps
     end

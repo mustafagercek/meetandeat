@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  participant: one
+  kitchen: one
+  rating: 1
+
+two:
+  participant: two
+  kitchen: two
+  rating: 1

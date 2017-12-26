@@ -1,8 +1,12 @@
 class Participant < ApplicationRecord
   has_secure_password
   has_secure_token :auth_token
+  after_save :set_default_prefs
 
   has_many :attendances
+  has_many :preferences
+
+  belongs_to :role, optional: true
 
   enum gender: [:male, :female]
   enum role: [:business_administration, :business_informatics, :other]
@@ -13,4 +17,10 @@ class Participant < ApplicationRecord
       participant
     end
   end
+
+  def set_default_prefs
+    kitchens = Kitchen.all
+    kitchens.each {|kitchen| Preference.create(participant: self, kitchen: kitchen, rating: 3)}
+  end
+
 end
