@@ -89,12 +89,10 @@ class Task < ApplicationRecord
         when 3
           all_attendances = Attendance.includes(participant: :preferences)
                                 .where(task_id: task.id, timeslot3: true)
-
           all_attendances.each do |attendant|
             attendant.invitation_state = 1
             attendant.save
           end
-
           task.task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
                                .where(task_id: task.id, query_state: 2, timeslot3: true,
@@ -102,9 +100,7 @@ class Task < ApplicationRecord
                                .order('preferences.rating DESC')
                                .limit(task_requirement.number)
           end
-
       end
-
       invitations.each do |attendant|
         attendant.invitation_state = 0
         attendant.save
