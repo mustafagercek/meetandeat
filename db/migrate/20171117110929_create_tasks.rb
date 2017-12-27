@@ -13,7 +13,7 @@ class CreateTasks < ActiveRecord::Migration[5.1]
       t.integer :survey_state
       t.integer :algorithm
       t.integer :current_level, default: 5
-      t.integer :winningTimeSlot
+      t.integer :winning_timeslot
       t.timestamps
     end
   end

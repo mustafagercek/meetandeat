@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20171226165816) do
     t.integer "survey_state"
     t.integer "algorithm"
     t.integer "current_level", default: 5
-    t.integer "winningTimeSlot"
+    t.integer "winning_timeslot"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "kitchen_id"

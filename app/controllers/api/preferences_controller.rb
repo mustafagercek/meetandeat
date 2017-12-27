@@ -2,7 +2,7 @@ class Api::PreferencesController < BaseApiController
 
   def index
     @preferences = Preference.includes(:kitchen).where(participant_id: @current_participant.id, kitchens: { active: true })
-    render json: @preferences, include: {kitchen: {except: %i[created_at updated_at]}},
+    render json: @preferences, include: {kitchen: {except: %i[created_at updated_at]}, participant: {}},
            except: %i[created_at updated_at]
   end
 
@@ -14,12 +14,12 @@ class Api::PreferencesController < BaseApiController
   end
 
   def update
-    @participant = Participant.find params[:id]
-    @participant.update participants_params
+    @preference = Preference.find params[:id]
+    @preference.update preferences_params
 
   end
 
-  def participants_params
-    params.require(:participant).permit(:email, :password)
+  def preferences_params
+    params.require(:preference).permit(:participant, :kitchen, :rating)
   end
 end

@@ -8,7 +8,6 @@ class Participant < ApplicationRecord
 
   belongs_to :role, optional: true
 
-  enum gender: [:male, :female]
   enum role: [:business_administration, :business_informatics, :other]
 
   def self.valid_login?(email, password)

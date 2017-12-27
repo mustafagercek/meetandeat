@@ -35,7 +35,6 @@ gem 'slim-rails'
 gem 'will_paginate'
 
 gem 'rails_db'
-
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

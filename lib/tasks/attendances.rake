@@ -9,9 +9,9 @@ namespace :attendances do
 
   task notify_user: :environment do
     desc 'Notifying user...'
-    # check current level greater 0
     is_finished = false
     Task.where(survey_state: 1).each do |task|
+      next if task.current_level <= 0
       puts 'Number of task requirenents ' + task.task_requirements.length.to_s
       i = 1
       num = 3
@@ -26,16 +26,22 @@ namespace :attendances do
       end
 
       if is_finished
+        task.current_level = -1
+        task.save
 
       else
-        attendances = Attendance.includes(participant: :preferences).where(task_id: task.id, query_state: 0, participants: { preferences: { kitchen_id: task.kitchen_id, rating: task.current_level } })
+        task.current_level -= 1
+        task.save
+
+        attendances = Attendance.includes(participant: :preferences)
+                          .where(task_id: task.id, query_state: 0,
+                                 participants: {preferences: {kitchen_id: task.kitchen_id, rating: task.current_level}})
         puts 'Number of possible attendances: ' + attendances.length.to_s
         attendances.each do |attendance|
+          #TODO: PUSH NOTIFICATION
           attendance.query_state = 1
           attendance.save
         end
-        task.current_level -= 1
-        task.save
       end
     end
   end
