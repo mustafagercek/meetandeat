@@ -4,6 +4,8 @@ class Task < ApplicationRecord
   has_many :attendances
   has_many :task_requirements
   has_many :roles, through: :task_requirements
+
+  has_many :noshows
   enum survey_state: %i[created active finished]
 
   def set_state
@@ -120,6 +122,7 @@ class Task < ApplicationRecord
       end
       invitations.each do |attendant|
         attendant.invitation_state = 0
+        #TODO SHOWUPN
         attendant.save
       end
 
