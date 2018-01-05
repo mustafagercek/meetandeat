@@ -1,7 +1,7 @@
 class Participant < ApplicationRecord
   has_secure_password
   has_secure_token :auth_token
-  after_save :set_default_prefs
+  after_create :set_default_prefs
 
   has_many :attendances
   has_many :preferences

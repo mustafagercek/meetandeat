@@ -26,9 +26,9 @@ participant1 = Participant.create(email: 'markojeftic2@web.de', password: 'boy2'
 participant2 = Participant.create(email: 'markojeftic3@web.de', password: 'boy2', gender: 1, role_id: role2.id)
 participant3 = Participant.create(email: 'markojeftic4@web.de', password: 'boy2', gender: 1, role_id: role3.id)
 
-participant1 = Participant.create(email: 'markojeftic5@web.de', password: 'boy2', gender: 0, role_id: role1.id)
-participant2 = Participant.create(email: 'markojeftic6@web.de', password: 'boy2', gender: 1, role_id: role2.id)
-participant3 = Participant.create(email: 'markojeftic7@web.de', password: 'boy2', gender: 1, role_id: role3.id)
+participant4 = Participant.create(email: 'markojeftic5@web.de', password: 'boy2', gender: 0, role_id: role1.id)
+participant5 = Participant.create(email: 'markojeftic6@web.de', password: 'boy2', gender: 1, role_id: role2.id)
+participant6 = Participant.create(email: 'markojeftic7@web.de', password: 'boy2', gender: 1, role_id: role3.id)
 
 TaskRequirement.create(task_id: task.id, role_id: role1.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
 TaskRequirement.create(task_id: task.id, role_id: role2.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)

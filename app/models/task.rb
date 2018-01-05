@@ -17,12 +17,28 @@ class Task < ApplicationRecord
       0
     elsif (survey_start..self.survey_end).cover?(Time.now)
       puts 'starting algorithm'
-      create_attendances
+      case algorithm
+        when 0
+          notify_every_user
+        when 1
+          create_attendances
+
+      end
       1
     else
       2
       invite_people
     end
+  end
+
+  def notify_every_user
+    participants = Participant.all
+    user_firebase_ids = []
+    participants.each do |participant|
+      Attendance.find_or_create_by(participant_id: participant.id, task_id: id, query_state: 1)
+      user_firebase_ids << participant.firebase_token if participant.firebase_token.present?
+    end
+    FirebaseCloudMessaging::UserNotificationSender.new(user_firebase_ids, 'You have a new invitation').call
   end
 
   def create_attendances
@@ -90,6 +106,7 @@ class Task < ApplicationRecord
           all_attendances = Attendance.includes(participant: :preferences)
                                 .where(task_id: task.id, timeslot3: true)
           all_attendances.each do |attendant|
+
             attendant.invitation_state = 1
             attendant.save
           end
@@ -111,6 +128,12 @@ class Task < ApplicationRecord
       self.winning_timeslot = -1
       self.save
     end
+    user_firebase_ids = []
+    all_notified_users = Attendance.where(task_id: task.id).where.not(query_state: 0)
+    all_notified_users.each do |attendant|
+      user_firebase_ids << attendant.participant.firebase_token if attendant.participant.firebase_token.present?
+    end
+    FirebaseCloudMessaging::UserNotificationSender.new(user_firebase_ids, 'The query you were invited to just ended! Check out the result').call
   end
 
 end

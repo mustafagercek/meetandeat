@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171226165816) do
+ActiveRecord::Schema.define(version: 20180104205116) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20171226165816) do
     t.string "auth_token"
     t.string "password_digest"
     t.bigint "role_id"
+    t.string "firebase_token"
     t.index ["role_id"], name: "index_participants_on_role_id"
   end
 

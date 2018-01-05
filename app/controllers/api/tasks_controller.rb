@@ -1,3 +1,6 @@
+require 'fcm'
+
+
 class Api::TasksController < BaseApiController
 
   def index
