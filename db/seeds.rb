@@ -36,5 +36,5 @@ TaskRequirement.create(task_id: task.id, role_id: role1.id, number: 1, timeslot1
 TaskRequirement.create(task_id: task.id, role_id: role2.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
 TaskRequirement.create(task_id: task.id, role_id: role3.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
 
-Preferences.create(participant_id: participant1.id, kitchen_id: kitchen1.id, rating: 5)
+Preference.create(participant_id: participant1.id, kitchen_id: kitchen1.id, rating: 5)
 
