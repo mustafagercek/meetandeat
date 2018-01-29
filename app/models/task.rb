@@ -21,9 +21,9 @@ class Task < ApplicationRecord
       puts 'starting algorithm'
       case algorithm
         when 0
-          notify_every_user unless survey_state == 1
+          notify_every_user unless survey_state == 'started'
         when 1
-          create_attendances unless survey_state == 1
+          create_attendances unless survey_state == 'started'
       end
       1
     else
@@ -33,6 +33,7 @@ class Task < ApplicationRecord
   end
 
   def notify_every_user
+    puts 'Creating attendances'
     participants = Participant.all
     user_firebase_ids = []
     participants.each do |participant|
@@ -43,6 +44,7 @@ class Task < ApplicationRecord
   end
 
   def create_attendances
+    puts 'Creating attendances'
     participants = Participant.all
     participants.each do |participant|
       attendances << Attendance.new(participant_id: participant.id, query_state: 0)
@@ -72,7 +74,7 @@ class Task < ApplicationRecord
         when 1
 
           all_attendances = Attendance.includes(participant: :preferences)
-                                .where(task_id: task.id, timeslot1: true)
+                                .where(task_id: id, timeslot1: true)
           all_attendances.each do |attendant|
             attendant.invitation_state = 0
             attendant.save
@@ -80,15 +82,15 @@ class Task < ApplicationRecord
 
           task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
-                               .where(task_id: task.id, query_state: 2, timeslot1: true,
-                                      participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: task.kitchen_id}})
+                               .where(task_id: id, query_state: 2, timeslot1: true,
+                                      participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: kitchen_id}})
                                .order('preferences.rating DESC')
                                .limit(task_requirement.number)
 
           end
         when 2
           all_attendances = Attendance.includes(participant: :preferences)
-                                .where(task_id: task.id, timeslot2: true)
+                                .where(task_id: id, timeslot2: true)
           all_attendances.each do |attendant|
             attendant.invitation_state = 0
             attendant.save
@@ -96,15 +98,15 @@ class Task < ApplicationRecord
 
           task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
-                               .where(task_id: task.id, query_state: 2, timeslot2: true,
-                                      participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: task.kitchen_id}})
+                               .where(task_id: id, query_state: 2, timeslot2: true,
+                                      participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: kitchen_id}})
                                .order('preferences.rating DESC')
                                .limit(task_requirement.number)
 
           end
         when 3
           all_attendances = Attendance.includes(participant: :preferences)
-                                .where(task_id: task.id, timeslot3: true)
+                                .where(task_id: id, timeslot3: true)
           all_attendances.each do |attendant|
 
             attendant.invitation_state = 0
@@ -112,8 +114,8 @@ class Task < ApplicationRecord
           end
           task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
-                               .where(task_id: task.id, query_state: 2, timeslot3: true,
-                                      participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: task.kitchen_id}})
+                               .where(task_id: id, query_state: 2, timeslot3: true,
+                                      participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: kitchen_id}})
                                .order('preferences.rating DESC')
                                .limit(task_requirement.number)
           end
