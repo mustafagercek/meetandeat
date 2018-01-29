@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 kitchen1 = Kitchen.create(name: 'Burgers')
 kitchen2 = Kitchen.create(name: 'Pasta')
 kitchen3 = Kitchen.create(name: 'Pizza')
