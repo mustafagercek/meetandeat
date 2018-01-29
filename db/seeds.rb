@@ -1,35 +1,63 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+kitchen1 = Kitchen.create(name: 'Burgers')
+kitchen2 = Kitchen.create(name: 'Pasta')
+kitchen3 = Kitchen.create(name: 'Pizza')
+kitchen4 = Kitchen.create(name: 'BBQ')
+kitchen5 = Kitchen.create(name: 'Vegeterian')
 
+role1 = Role.create(name: 'Management')
+role2 = Role.create(name: 'Computer...')
+role3 = Role.create(name: 'Other')
 
-kitchen1 = Kitchen.create(name: 'Asiatisch')
-kitchen2 = Kitchen.create(name: 'Türkisch')
-kitchen3 = Kitchen.create(name: 'Deutsch')
-kitchen4 = Kitchen.create(name: 'Italienisch')
+participant1 = Participant.create(email: 'meet@eat.de', password: 'hungry', gender: 0, role_id: role1.id)
+Preference.find_by(participant_id: participant1.id, kitchen_id: kitchen1.id).update(rating: 4)
+Preference.find_by(participant_id: participant1.id, kitchen_id: kitchen2.id).update(rating: 3)
+Preference.find_by(participant_id: participant1.id, kitchen_id: kitchen3.id).update(rating: 2)
+Preference.find_by(participant_id: participant1.id, kitchen_id: kitchen4.id).update(rating: 5)
+Preference.find_by(participant_id: participant1.id, kitchen_id: kitchen5.id).update(rating: 1)
 
-role1 = Role.create(name: 'Wifo')
-role2 = Role.create(name: 'BWL')
-role3 = Role.create(name: 'Jura')
-role4 = Role.create(name: 'Wipäd')
-role5 = Role.create(name: 'Other')
+timeslot1 = DateTime.new(2009, 9, 14, 8)
+timeslot2 = DateTime.new(2009, 9, 14, 8)
+timeslot3 = DateTime.new(2009, 9, 14, 8)
 
-task = Task.create(title: 'Task Title', survey_start: DateTime.new(2009, 9, 14, 8), survey_end: DateTime.new(2020, 9, 15, 8),
-                   description: 'This is just a description. Do not mind', timeslot1: DateTime.new(2009, 9, 14, 8), timeslot2: DateTime.new(2009, 9, 14, 8),
-                   algorithm: 0, kitchen_id: kitchen1.id)
+t = Time.now
 
-participant1 = Participant.create(email: 'markojeftic2@web.de', password: 'boy2', gender: 0, role_id: role1.id)
-participant2 = Participant.create(email: 'markojeftic3@web.de', password: 'boy2', gender: 1, role_id: role2.id)
-participant3 = Participant.create(email: 'markojeftic4@web.de', password: 'boy2', gender: 1, role_id: role3.id)
+task2 = Task.create(title: 'Query Phase', survey_start: t, survey_end: t+84600,
+                    description: 'This is just a description. Do not mind', timeslot1: timeslot1, timeslot2: timeslot2, timeslot3: timeslot3,
+                    algorithm: 0, kitchen_id: kitchen2.id)
 
-participant4 = Participant.create(email: 'markojeftic5@web.de', password: 'boy2', gender: 0, role_id: role1.id)
-participant5 = Participant.create(email: 'markojeftic6@web.de', password: 'boy2', gender: 1, role_id: role2.id)
-participant6 = Participant.create(email: 'markojeftic7@web.de', password: 'boy2', gender: 1, role_id: role3.id)
+task3 = Task.create(title: 'Missed Task', survey_start: t, survey_end: t+120,
+                    description: 'This is just a description. Do not mind', timeslot1: timeslot1, timeslot2: timeslot2, timeslot3: timeslot3,
+                    algorithm: 0, kitchen_id: kitchen3.id)
 
-TaskRequirement.create(task_id: task.id, role_id: role1.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
-TaskRequirement.create(task_id: task.id, role_id: role2.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
-TaskRequirement.create(task_id: task.id, role_id: role3.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
+task4 = Task.create(title: 'Wating for Result', survey_start: t, survey_end: t+84600,
+                    description: 'This is just a description. Do not mind', timeslot1: timeslot1, timeslot2: timeslot2, timeslot3: timeslot3,
+                    algorithm: 0, kitchen_id: kitchen4.id)
+
+task5 = Task.create(title: 'Not Invited', survey_start: t, survey_end: t+120,
+                    description: 'This is just a description. Do not mind', timeslot1: timeslot1, timeslot2: timeslot2, timeslot3: timeslot3,
+                    algorithm: 0, kitchen_id: kitchen5.id)
+
+task6 = Task.create(title: 'Invited', survey_start: t, survey_end: t+120,
+                    description: 'This is just a description. Do not mind', timeslot1: timeslot1, timeslot2: timeslot2, timeslot3: timeslot3,
+                    algorithm: 0, kitchen_id: kitchen1.id)
+
+task7 = Task.create(title: 'Proof Given', survey_start: t, survey_end: t+120,
+                    description: 'This is just a description. Do not mind', timeslot1: timeslot1, timeslot2: timeslot2, timeslot3: timeslot3,
+                    algorithm: 0, kitchen_id: kitchen2.id)
+
+TaskRequirement.create(task_id: task2.id, role_id: role1.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
+
+TaskRequirement.create(task_id: task3.id, role_id: role1.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
+
+TaskRequirement.create(task_id: task4.id, role_id: role1.id, number: 1, timeslot1_acceptance: 0, timeslot2_acceptance: 0, timeslot3_acceptance: 1)
+
+TaskRequirement.create(task_id: task5.id, role_id: role1.id, number: 1, timeslot1_acceptance: 1, timeslot2_acceptance: 0, timeslot3_acceptance: 0)
+
+TaskRequirement.create(task_id: task6.id, role_id: role1.id, number: 1, timeslot1_acceptance: 1, timeslot2_acceptance: 1, timeslot3_acceptance: 0)
+
+TaskRequirement.create(task_id: task7.id, role_id: role1.id, number: 1, timeslot1_acceptance: 1, timeslot2_acceptance: 1, timeslot3_acceptance: 1)
+
+Attendance.find_by(participant_id: participant1.id, task_id: task4.id).update(timeslot1: false, timeslot2: false, timeslot3: true, query_state: 2, invitation_state: 0)
+Attendance.find_by(participant_id: participant1.id, task_id: task5.id).update(timeslot1: true, timeslot2: false, timeslot3: false, query_state: 2, invitation_state: 0)
+Attendance.find_by(participant_id: participant1.id, task_id: task6.id).update(timeslot1: true, timeslot2: true, timeslot3: false, query_state: 2, invitation_state: 1)
+Attendance.find_by(participant_id: participant1.id, task_id: task7.id).update(timeslot1: true, timeslot2: true, timeslot3: true, query_state: 2, invitation_state: 2)

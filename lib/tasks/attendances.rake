@@ -1,7 +1,7 @@
 namespace :attendances do
   desc 'Updating Task states...'
   task update_states: :environment do
-    Task.all.each do |task|
+    Task.where.not(survey_state: 2).each do |task|
       task.set_state
       task.save
     end

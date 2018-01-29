@@ -3,6 +3,6 @@ class Attendance < ApplicationRecord
   belongs_to :participant
 
   enum query_state: %i[pending notified answered]
-  enum invitation_state: %i[invited rejected]
+  enum invitation_state: %i[rejected invited proof]
 
 end

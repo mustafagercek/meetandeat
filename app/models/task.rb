@@ -6,7 +6,7 @@ class Task < ApplicationRecord
   has_many :roles, through: :task_requirements
 
   has_many :noshows
-  enum survey_state: %i[created active finished]
+  enum survey_state: %i[created started finished]
 
   def set_state
     puts title + ', Old State: ' + survey_state if survey_state
@@ -21,15 +21,14 @@ class Task < ApplicationRecord
       puts 'starting algorithm'
       case algorithm
         when 0
-          notify_every_user
+          notify_every_user unless survey_state == 1
         when 1
-          create_attendances
-
+          create_attendances unless survey_state == 1
       end
       1
     else
-      2
       invite_people
+      2
     end
   end
 
@@ -37,7 +36,7 @@ class Task < ApplicationRecord
     participants = Participant.all
     user_firebase_ids = []
     participants.each do |participant|
-      Attendance.find_or_create_by(participant_id: participant.id, task_id: id, query_state: 1)
+      attendances << Attendance.new(participant_id: participant.id, query_state: 1)
       user_firebase_ids << participant.firebase_token if participant.firebase_token.present?
     end
     FirebaseCloudMessaging::UserNotificationSender.new(user_firebase_ids, 'You have a new invitation').call
@@ -46,7 +45,7 @@ class Task < ApplicationRecord
   def create_attendances
     participants = Participant.all
     participants.each do |participant|
-      Attendance.find_or_create_by(participant_id: participant.id, task_id: id, query_state: 0)
+      attendances << Attendance.new(participant_id: participant.id, query_state: 0)
     end
   end
 
@@ -57,10 +56,10 @@ class Task < ApplicationRecord
     num = 3
     while i <= num
       number_of_reaches = 0
-      task.task_requirements.each do |task_requirement|
+      task_requirements.each do |task_requirement|
         number_of_reaches += (task_requirement.isNumberReached(i) ? 1 : 0)
       end
-      is_finished = number_of_reaches == task.task_requirements.length
+      is_finished = number_of_reaches == task_requirements.length && number_of_reaches!=0
       winningTimeslot = i if is_finished
       break if is_finished
       i += 1
@@ -68,7 +67,6 @@ class Task < ApplicationRecord
 
     if is_finished
       self.winning_timeslot = winningTimeslot
-      self.save
       invitations = []
       case winningTimeslot
         when 1
@@ -76,11 +74,11 @@ class Task < ApplicationRecord
           all_attendances = Attendance.includes(participant: :preferences)
                                 .where(task_id: task.id, timeslot1: true)
           all_attendances.each do |attendant|
-            attendant.invitation_state = 1
+            attendant.invitation_state = 0
             attendant.save
           end
 
-          task.task_requirements.each do |task_requirement|
+          task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
                                .where(task_id: task.id, query_state: 2, timeslot1: true,
                                       participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: task.kitchen_id}})
@@ -92,11 +90,11 @@ class Task < ApplicationRecord
           all_attendances = Attendance.includes(participant: :preferences)
                                 .where(task_id: task.id, timeslot2: true)
           all_attendances.each do |attendant|
-            attendant.invitation_state = 1
+            attendant.invitation_state = 0
             attendant.save
           end
 
-          task.task_requirements.each do |task_requirement|
+          task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
                                .where(task_id: task.id, query_state: 2, timeslot2: true,
                                       participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: task.kitchen_id}})
@@ -109,10 +107,10 @@ class Task < ApplicationRecord
                                 .where(task_id: task.id, timeslot3: true)
           all_attendances.each do |attendant|
 
-            attendant.invitation_state = 1
+            attendant.invitation_state = 0
             attendant.save
           end
-          task.task_requirements.each do |task_requirement|
+          task_requirements.each do |task_requirement|
             invitations += Attendance.includes(participant: :preferences)
                                .where(task_id: task.id, query_state: 2, timeslot3: true,
                                       participants: {role_id: task_requirement.role_id, preferences: {kitchen_id: task.kitchen_id}})
@@ -121,7 +119,7 @@ class Task < ApplicationRecord
           end
       end
       invitations.each do |attendant|
-        attendant.invitation_state = 0
+        attendant.invitation_state = 1
         #TODO SHOWUPN
         attendant.save
       end
@@ -129,14 +127,13 @@ class Task < ApplicationRecord
 
     else
       self.winning_timeslot = -1
-      self.save
     end
     user_firebase_ids = []
-    all_notified_users = Attendance.where(task_id: task.id).where.not(query_state: 0)
+    all_notified_users = Attendance.where(task_id: id).where.not(query_state: 0)
     all_notified_users.each do |attendant|
       user_firebase_ids << attendant.participant.firebase_token if attendant.participant.firebase_token.present?
     end
-    FirebaseCloudMessaging::UserNotificationSender.new(user_firebase_ids, 'The query you were invited to just ended! Check out the result').call
+    FirebaseCloudMessaging::UserNotificationSender.new(user_firebase_ids, 'The query you were invited to just ended! Check out the result').call if user_firebase_ids.any?
   end
 
 end

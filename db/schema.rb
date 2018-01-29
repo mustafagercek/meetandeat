@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180104205116) do
+ActiveRecord::Schema.define(version: 20180105030225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 20180104205116) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "noshows", force: :cascade do |t|
+    t.bigint "participant_id"
+    t.bigint "task_id"
+    t.string "spotted"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_noshows_on_participant_id"
+    t.index ["task_id"], name: "index_noshows_on_task_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -103,6 +113,8 @@ ActiveRecord::Schema.define(version: 20180104205116) do
 
   add_foreign_key "attendances", "participants"
   add_foreign_key "attendances", "tasks"
+  add_foreign_key "noshows", "participants"
+  add_foreign_key "noshows", "tasks"
   add_foreign_key "participants", "roles"
   add_foreign_key "preferences", "kitchens"
   add_foreign_key "preferences", "participants"
