@@ -4,7 +4,7 @@ class Task < ApplicationRecord
   has_many :attendances
   has_many :task_requirements
   has_many :roles, through: :task_requirements
-
+  belongs_to :kitchen
   has_many :noshows
   enum survey_state: %i[created started finished]
 
