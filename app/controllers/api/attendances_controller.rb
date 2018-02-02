@@ -2,7 +2,7 @@ class Api::AttendancesController < BaseApiController
 
   def index
     @attendances = Attendance.includes(:task).where(participant_id: @current_participant.id).where.not(query_state: 0)
-    render json: @attendances, include: {task: {include: {task_requirements: {only: %i[number]}}, except: %i[created_at updated_at algorithm current_levelgit add]}},
+    render json: @attendances, include: {task: {include: {task_requirements: {only: %i[number]}, kitchen: {}}, except: %i[created_at updated_at algorithm current_levelgit add]}},
            except: %i[created_at updated_at]
   end
 

@@ -61,3 +61,6 @@ Attendance.find_by(participant_id: participant1.id, task_id: task4.id).update(ti
 Attendance.find_by(participant_id: participant1.id, task_id: task5.id).update(timeslot1: true, timeslot2: false, timeslot3: false, query_state: 2, invitation_state: 0)
 Attendance.find_by(participant_id: participant1.id, task_id: task6.id).update(timeslot1: true, timeslot2: true, timeslot3: false, query_state: 2, invitation_state: 1)
 Attendance.find_by(participant_id: participant1.id, task_id: task7.id).update(timeslot1: true, timeslot2: true, timeslot3: true, query_state: 2, invitation_state: 2)
+
+survey = Survey.create(task_id: task2.id, title: 'Test Title', description: 'Test Description')
+SurveyItem.create(survey_id: survey.id, item_type: 'likert', question: 'This is a question')

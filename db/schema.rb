@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180105030225) do
+ActiveRecord::Schema.define(version: 20180131142142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,6 +78,47 @@ ActiveRecord::Schema.define(version: 20180105030225) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "survey_answers", force: :cascade do |t|
+    t.bigint "survey_item_id"
+    t.bigint "participant_id"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_survey_answers_on_participant_id"
+    t.index ["survey_item_id"], name: "index_survey_answers_on_survey_item_id"
+  end
+
+  create_table "survey_items", force: :cascade do |t|
+    t.bigint "survey_id"
+    t.string "item_type"
+    t.string "question"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["survey_id"], name: "index_survey_items_on_survey_id"
+  end
+
+  create_table "survey_requests", force: :cascade do |t|
+    t.bigint "survey_id"
+    t.bigint "participant_id"
+    t.string "state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["participant_id"], name: "index_survey_requests_on_participant_id"
+    t.index ["survey_id"], name: "index_survey_requests_on_survey_id"
+  end
+
+  create_table "surveys", force: :cascade do |t|
+    t.string "title"
+    t.string "description"
+    t.bigint "task_id"
+    t.integer "attendance_query_state"
+    t.integer "attendance_invitation_state"
+    t.string "state", default: "not started"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["task_id"], name: "index_surveys_on_task_id"
+  end
+
   create_table "task_requirements", force: :cascade do |t|
     t.bigint "task_id"
     t.bigint "role_id"
@@ -118,5 +159,11 @@ ActiveRecord::Schema.define(version: 20180105030225) do
   add_foreign_key "participants", "roles"
   add_foreign_key "preferences", "kitchens"
   add_foreign_key "preferences", "participants"
+  add_foreign_key "survey_answers", "participants"
+  add_foreign_key "survey_answers", "survey_items"
+  add_foreign_key "survey_items", "surveys"
+  add_foreign_key "survey_requests", "participants"
+  add_foreign_key "survey_requests", "surveys"
+  add_foreign_key "surveys", "tasks"
   add_foreign_key "tasks", "kitchens"
 end

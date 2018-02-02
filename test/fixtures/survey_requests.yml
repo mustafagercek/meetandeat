@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  survey: one
+  participant: one
+  state: MyString
+
+two:
+  survey: two
+  participant: two
+  state: MyString

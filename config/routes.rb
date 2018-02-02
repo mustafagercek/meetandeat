@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resources :attendances
       resources :preferences
       resources :roles
+      resources :noshows
 
     end
   end

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  string: 
+  string: 
+  task: one
+  attendance_query_state: 1
+  attendance_invitation_state: 1
+  is_active: false
+
+two:
+  string: 
+  string: 
+  task: two
+  attendance_query_state: 1
+  attendance_invitation_state: 1
+  is_active: false
