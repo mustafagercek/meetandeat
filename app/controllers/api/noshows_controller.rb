@@ -5,7 +5,7 @@ class Api::NoshowsController < BaseApiController
     #Check if current user was invited
     @noshow = Noshow.new(noshow_params)
     @noshow.participant_id = @current_participant.id
-    attendance = Attendance.find_by(task_id: @noshow.task.id, particpant_id: @current_participant)
+    attendance = Attendance.find_by(task_id: @noshow.task_id, participant_id: @current_participant.id)
     attendance.invitation_state = 2
     attendance.save
     if @noshow.save
@@ -14,6 +14,6 @@ class Api::NoshowsController < BaseApiController
   end
 
   def noshow_params
-    params.require(:noshow).permit(:spotted, :task)
+    params.require(:noshow).permit(:spotted, :task_id)
   end
 end
