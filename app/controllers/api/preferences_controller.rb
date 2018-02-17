@@ -9,14 +9,14 @@ class Api::PreferencesController < BaseApiController
   def create
     @participant = Participant.new(participants_params)
     if @participant.save
-      render json: @participant
+      render json: @participant, status: 200
     end
   end
 
   def update
     @preference = Preference.find params[:id]
     @preference.update preferences_params
-
+    render json: @participant, status: 200
   end
 
   def preferences_params

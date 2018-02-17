@@ -7,7 +7,7 @@ class CreateAttendances < ActiveRecord::Migration[5.1]
       t.boolean :timeslot2
       t.boolean :timeslot3
       t.integer :query_state
-      t.integer :invitation_state
+      t.integer :invitation_state, default: 0
       t.timestamps
     end
   end

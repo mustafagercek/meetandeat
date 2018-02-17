@@ -9,7 +9,7 @@ class Api::NoshowsController < BaseApiController
     attendance.invitation_state = 2
     attendance.save
     if @noshow.save
-      render json: @noshow
+      render json: @noshow, status: 200
     end
   end
 
