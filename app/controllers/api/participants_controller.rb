@@ -15,7 +15,7 @@ class Api::ParticipantsController < ActionController::Base
   end
 
   def participants_params
-    params.require(:participant).permit(:email, :password, :gender, :role_id,
+    params.require(:participant).permit(:email, :password,:firstname, :lastname, :gender, :role_id,
                                         :firebase_token)
   end
 end
