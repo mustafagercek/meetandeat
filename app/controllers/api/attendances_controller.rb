@@ -40,6 +40,7 @@ class Api::AttendancesController < BaseApiController
     end
   end
 
+
   def attendances_params
     params.require(:attendance).permit(:timeslot1, :timeslot2, :timeslot3)
   end
