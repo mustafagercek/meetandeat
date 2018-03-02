@@ -15,7 +15,7 @@ class Api::AttendancesController < BaseApiController
 
   def update
     @attendance = Attendance.find params[:id]
-    if @attendance.query_state == 1
+    if @attendance.query_state == 'notified'
       @attendance.query_state = 2
       if @attendance.update attendances_params
         task_requirement = TaskRequirement.find_by(task_id: @attendance.task.id, role_id: @current_participant.role_id)
@@ -35,9 +35,9 @@ class Api::AttendancesController < BaseApiController
         end
       end
       render json: @attendance, status: 200
+    else
+      render json: {}, status: 400
     end
-  else
-    render json: {}, status: 400
   end
 
   def attendances_params
